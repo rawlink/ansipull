@@ -7,6 +7,7 @@ Ansipull was designed to store your ansible-pull repo in a private git repositor
 Ansipull is meant as a nice starting point. You can make Ansipull even more scalable by using Ansible's [Dynamic Inventory](http://docs.ansible.com/intro_dynamic_inventory.html).
 
 To get started:
+
 1. Add your hosts and groups to the hosts file. All hosts that you would like to manage using ansible-pull must be present in the ansible_pull group.
 2. Add role assignments to your hosts in the local.yml file.
 3. Add roles for managing your hosts.
