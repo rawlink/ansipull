@@ -18,6 +18,7 @@ To get started:
 8. Update the ssh config and known hosts sections of the roles/ansible_pull/tasks/main.yml file for your environment.
 9. Run ssh-copy-id for each of your hosts from the machine you will use to bootstrap ansible-pull (e.g. ssh-copy-id user@host). Note that the user you copy your ssh id to must have sudo privileges.
 10. Run the ansible_pull.sh file. This will bootstrap the ansible-pull process for all hosts present in the ansible_pull group in the hosts file. These hosts will then automatically run ansible-pull at the configured interval ( roles/ansible_pull/vars/main.yml ).
+11. Monitor log files on your hosts to ensure everything is working.
 
 ## Troubleshooting
 * If you receive errors that the host is not in inventory, please ensure that the target hosts hostname is properly configured in that hosts /etc/hosts file.
