@@ -1,2 +1,0 @@
-Host git.example.com
- IdentityFile ~/.ssh/somesshkey
