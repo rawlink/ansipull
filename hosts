@@ -1,0 +1,11 @@
+## Pull mode hosts
+[pull_mode_host]
+host1.example.com
+host2.example.com
+host3.example.com
+
+[group1]
+host2.example.com
+
+[group2]
+host3.example.com

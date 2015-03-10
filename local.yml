@@ -1,0 +1,15 @@
+---
+- include: ansible_pull.yml
+
+- hosts: host1.example.com
+  roles:
+    - role1
+
+- hosts: host2.example.com
+  roles:
+    - role2
+
+- hosts: host3.example.com
+  roles:
+    - role1
+    - role2

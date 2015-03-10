@@ -1,0 +1,8 @@
+---
+pull_mode_bootstrap: false
+pull_mode_schedule: '*/15 * * * *'
+pull_mode_cron_user: root
+pull_mode_logfile: /var/log/ansible-pull.log
+pull_mode_workdir: /var/lib/ansible/local
+pull_mode_repo_url: git@bitbucket.org:user/ansible.git
+pull_mode_random_sleep: 120

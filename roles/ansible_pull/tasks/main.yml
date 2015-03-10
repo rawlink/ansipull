@@ -1,0 +1,66 @@
+---
+- include_vars: vault.yml
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: pull_mode_bootstrap == "true"
+
+- name: Install Ansible
+  apt: name=ansible state=latest
+
+- name: Install Git
+  apt: name=git state=latest
+
+- name: Create root .ssh directory
+  file: path=/root/.ssh state=directory owner=root group=root mode=0700
+
+- name: Install private key
+  template: src=somesshkey.j2 dest=/root/.ssh/somesshkey owner=root group=root mode=600
+
+- name: Install public key
+  copy: src=somesshkey.pub dest=/root/.ssh/somesshkey.pub owner=root group=root mode=644
+
+- name: Ensure root .ssh config exists
+  copy: content="" dest=/root/.ssh/config force=no owner=root group=root mode=0644
+
+- name: ssh config line 1
+  lineinfile: dest=/root/.ssh/config line="Host git.example.com"
+
+- name: ssh config line 2
+  lineinfile: dest=/root/.ssh/config line=" IdentityFile ~/.ssh/somesshkey" insertafter="^Host git.example.com"
+
+- name: Create root .ssh known_hosts
+  copy: content="" dest=/root/.ssh/known_hosts force=no owner=root group=root mode=0644
+
+- name: known hosts
+  lineinfile: dest=/root/.ssh/known_hosts line="{{ item }}"
+  with_items:
+    - "|1|Pz2clW7BuLR7r3p4KMdwgpswjFs=|J9C9ChLKDIrI5QGvded7q0vYtys= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw=="
+    - "|1|QXTJPz6jwOsSQ2sNRwuqw8kePQw=|P8JD3fgWu721DLwPdADvcOvbfcM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw=="
+
+- name: Create directory to pull git repo from
+  action: file path={{pull_mode_workdir}} state=directory owner=root group=root mode=0755
+
+- name: Remove existing /etc/ansible/hosts in case of symlink
+  file: path=/etc/ansible/hosts state=absent
+  when: pull_mode_bootstrap == "true"
+
+- name: Create /etc/ansible/hosts
+  copy: src=hosts dest=/etc/ansible/hosts owner=root group=root mode=0644
+  when: pull_mode_bootstrap == "true"
+
+- name: Symlink /etc/ansible/hosts to real file
+  file: src={{ pull_mode_workdir }}/hosts dest=/etc/ansible/hosts owner=root group=root force=yes state=link
+  when: pull_mode_bootstrap != "true"
+
+- name: Create /etc/ansible/vaultpass
+  template: src=etc_ansible_vaultpass.j2 dest=/etc/ansible/vaultpass owner=root group=root mode=0600
+
+- name: Create /usr/bin/ansible-pull-custom
+  template: src=ansible-pull-custom dest=/usr/bin/ansible-pull-custom owner=root group=root mode=0755
+
+- name: Create crontab entry to clone/pull git repository
+  template: src=etc_cron.d_ansible-pull.j2 dest=/etc/cron.d/ansible-pull owner=root group=root mode=0644
+
+- name: Create logrotate entry for ansible-pull.log
+  template: src=etc_logrotate.d_ansible-pull.j2 dest=/etc/logrotate.d/ansible-pull owner=root group=root mode=0644

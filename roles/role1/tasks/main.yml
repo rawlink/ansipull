@@ -1,0 +1,3 @@
+---
+- name: Role1 debug
+  debug: msg="Role1 has a var1 value of {{ var1 }}"

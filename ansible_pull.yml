@@ -1,0 +1,4 @@
+---
+- hosts: pull_mode_host
+  roles:
+    - ansible_pull

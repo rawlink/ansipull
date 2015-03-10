@@ -1,0 +1,5 @@
+# Cron job to git clone/pull a repo and then run locally
+
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+{{ pull_mode_schedule }} {{ pull_mode_cron_user }} ansible-pull-custom
