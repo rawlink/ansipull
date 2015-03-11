@@ -1,6 +1,6 @@
 # Ansipull
 
-There is very little good information out there on how to set up ansible pull. I put this together as a better practice than what I have seen in other online examples. You will need to have a basic understanding of how to use ansible. Ansible's [Getting Started](http://docs.ansible.com/intro_getting_started.html) and [Best Practices](http://docs.ansible.com/playbooks_best_practices.html) would be great places to start.
+There is very little good information out there on how to set up ansible pull. I put this together as a better practice than what I have seen in other online examples. You will need to have a basic understanding of how to use Ansible before you start. Ansible's [Getting Started](http://docs.ansible.com/intro_getting_started.html) and [Best Practices](http://docs.ansible.com/playbooks_best_practices.html) are great places to start.
 
 Ansipull was designed to store your ansible-pull repo in a private git repository with key based authentication and all sensitive information stored using ansible vault with a single password. This allows you to keep your ansible-pull repo in a private BitBucket repo for example. For the truly paranoid you can keep your repo in a totally private repo. Alternatively, if your repo is behind layers of firewall you can remove the key based authentication with a few minor modifications.
 
