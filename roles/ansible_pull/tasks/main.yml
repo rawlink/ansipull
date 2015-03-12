@@ -32,11 +32,15 @@
 - name: Create root .ssh known_hosts
   copy: content="" dest=/root/.ssh/known_hosts force=no owner=root group=root mode=0644
 
-- name: known hosts
-  lineinfile: dest=/root/.ssh/known_hosts line="{{ item }}"
-  with_items:
-    - "|1|Pz2clW7BuLR7r3p4KMdwgpswjFs=|J9C9ChLKDIrI5QGvded7q0vYtys= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw=="
-    - "|1|QXTJPz6jwOsSQ2sNRwuqw8kePQw=|P8JD3fgWu721DLwPdADvcOvbfcM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw=="
+- name: update known hosts - check host
+  shell: ssh-keygen -f /root/.ssh/known_hosts -F {{ pull_mode_host }} | uniq
+  ignore_errors: yes
+  register: known_host_result
+  changed_when: known_host_result.stdout == ""
+
+- name: update known hosts - set host
+  shell: ssh-keyscan -H -T 10 {{ pull_mode_host }} >> /root/.ssh/known_hosts
+  when: known_host_result.stdout == ""
 
 - name: Create directory to pull git repo from
   action: file path={{pull_mode_workdir}} state=directory owner=root group=root mode=0755
