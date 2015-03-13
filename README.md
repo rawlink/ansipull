@@ -28,4 +28,4 @@ Ansipull is meant as a nice starting point. You can make Ansipull even more scal
 ## TODO
 * Improve documentation
 
-[![Analytics](https://ga-beacon.appspot.com/UA-60683137-1/ansipull/README.md)](https://github.com/rawlink/ansipull)
+[![Analytics](https://ga-beacon.appspot.com/UA-60683137-1/ansipull/readme)](https://github.com/rawlink/ansipull)
