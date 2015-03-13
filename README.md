@@ -1,13 +1,16 @@
 # Ansipull
-
 There is very little good information out there on how to set up ansible pull. I put this together as a better practice than what I have seen in other online examples. You will need to have a basic understanding of how to use Ansible before you start. Ansible's [Getting Started](http://docs.ansible.com/intro_getting_started.html) and [Best Practices](http://docs.ansible.com/playbooks_best_practices.html) are great places to start.
 
 Ansipull was designed to store your ansible-pull repo in a private git repository with key based authentication and all sensitive information stored using ansible vault with a single password. This allows you to keep your ansible-pull repo in a private BitBucket repo for example. For the truly paranoid you can keep your repo in a totally private repo. Alternatively, if your repo is behind layers of firewall you can remove the key based authentication with a few minor modifications.
 
 Ansipull is meant as a nice starting point. You can make Ansipull even more scalable by using Ansible's [Dynamic Inventory](http://docs.ansible.com/intro_dynamic_inventory.html).
 
-To get started:
+## Features
+* **Designed for private third-party repos.** You provide a vault password during the bootstrap process and the pull process will use that password. Your sensitive data is protected at all times.
+* **The pull process is bootstrapped and maintained from a single role.** Updates to the pull process update the pull process on your managed system.
+* **Easy to repair.** If for any reason the pull process breaks on a system, the bootstrap process can be run for that server to address any pull process issues.
 
+## Configuration
 1. Add your hosts and groups to the hosts file. All hosts that you would like to manage using ansible-pull must be present in the ansible_pull group.
 2. Add role assignments to your hosts in the local.yml file.
 3. Add roles for managing your hosts.
@@ -24,3 +27,5 @@ To get started:
 
 ## TODO
 * Improve documentation
+
+[![Analytics](https://ga-beacon.appspot.com/UA-60683137-1/ansipull/README.md)](https://github.com/rawlink/ansipull)
