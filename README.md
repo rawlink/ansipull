@@ -23,7 +23,7 @@ Ansipull is meant as a nice starting point. You can make Ansipull even more scal
 10. Monitor log files on your hosts to ensure everything is working.
 
 ## Troubleshooting
-* If you receive errors that the host is not in inventory, please ensure that the target hosts hostname is properly configured in that host's /etc/hosts file.
+* If you receive errors that the host is not in inventory, please ensure that the target host's hostname is properly configured in that host's /etc/hosts file.
 
 ## TODO
 * Improve documentation
