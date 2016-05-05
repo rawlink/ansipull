@@ -3,4 +3,4 @@
 SHELL=/bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-ansible-pull -i /etc/ansible/hosts --vault-password-file /etc/ansible/vaultpass -d {{ pull_mode_workdir }} -U {{ pull_mode_repo_url }} -s {{ pull_mode_random_sleep }} >> {{ pull_mode_logfile }} 2>&1
+ansible-pull -i /etc/ansible/hosts --vault-password-file /etc/ansible/vaultpass -d {{ pull_mode_workdir }} -U {{ pull_mode_repo_url }} -l {{ ansible_fqdn }} -s {{ pull_mode_random_sleep }} >> {{ pull_mode_logfile }} 2>&1

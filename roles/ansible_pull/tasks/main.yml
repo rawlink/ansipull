@@ -11,6 +11,9 @@
 - name: Install Git
   apt: name=git state=latest
 
+- name: Create .git directory
+  action: file path=/root/.git state=directory owner=root group=root mode=0700
+
 - name: Create root .ssh directory
   file: path=/root/.ssh state=directory owner=root group=root mode=0700
 
@@ -24,10 +27,10 @@
   copy: content="" dest=/root/.ssh/config force=no owner=root group=root mode=0644
 
 - name: ssh config line 1
-  lineinfile: dest=/root/.ssh/config line="Host git.example.com"
+  lineinfile: dest=/root/.ssh/config line="Host {{ pull_mode_host}}"
 
 - name: ssh config line 2
-  lineinfile: dest=/root/.ssh/config line=" IdentityFile ~/.ssh/somesshkey" insertafter="^Host git.example.com"
+  lineinfile: dest=/root/.ssh/config line=" IdentityFile ~/.ssh/somesshkey" insertafter="^Host {{ pull_mode_host }}"
 
 - name: Create root .ssh known_hosts
   copy: content="" dest=/root/.ssh/known_hosts force=no owner=root group=root mode=0644
